@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold: #FFD700;
+  --color-gold-dark: #B8860B;
+  --color-black: #000000;
+  --color-black-light: #1a1a1a;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out;
+}
+
+body {
+  margin: 0;
+}
