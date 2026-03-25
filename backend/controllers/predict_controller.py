@@ -18,10 +18,10 @@ def predict_image():
         img = img.resize((380, 380))
         img_np = np.array(img)
 
+        file.seek(0)
         img_array = preprocess_image(file)
 
-        input_name = model.inputs[0].name.split(":")[0]
-        pred = model.predict({input_name: img_array})[0][0]
+        pred = model.predict(img_array)[0][0]
 
         heatmap = get_gradcam(model, img_array)
         gradcam_img = overlay_gradcam(img_np, heatmap)
