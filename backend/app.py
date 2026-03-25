@@ -1,6 +1,8 @@
 from flask import Flask, request, make_response, jsonify
 from routes.predict_routes import predict_bp
 
+ALLOWED_ORIGIN = "*"  # allow any origin; switch to specific domain for production
+
 app = Flask(__name__)
 
 @app.before_request
