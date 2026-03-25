@@ -9,6 +9,7 @@ from PIL import Image
 import base64
 import cv2
 import gc
+import traceback
 
 
 def predict_image():
@@ -58,6 +59,12 @@ def predict_image():
             "gradcam": gradcam_base64,
             "explanation": explanation
         })
+
+    except Exception as e:
+        tb = traceback.format_exc()
+        print("[PREDICT ERROR]", str(e))
+        print(tb)
+        return jsonify({"error": "Internal server error", "detail": str(e)}), 500
 
     except Exception as e:
         print(f"[PREDICT ERROR] {e}")
