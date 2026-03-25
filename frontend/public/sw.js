@@ -41,7 +41,15 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(event.request).catch(() => new Response(
         JSON.stringify({ error: 'Backend unreachable' }),
-        { status: 503, headers: { 'Content-Type': 'application/json' } }
+        {
+          status: 503,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+          }
+        }
       ))
     );
     return;

@@ -1,9 +1,10 @@
 from flask import Flask, request, make_response, jsonify
+from flask_cors import CORS
 from routes.predict_routes import predict_bp
 
-ALLOWED_ORIGIN = "https://skin-check-alpha.vercel.app"
-
+# Use wildcard CORS to avoid origin mismatch in Render deployment
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 @app.before_request
 def handle_preflight():
