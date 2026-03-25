@@ -4,7 +4,9 @@ from routes.predict_routes import predict_bp
 
 app = Flask(__name__)
 CORS(app, resources={
-    r"/*": {"origins": "*"}
+    r"/*": {
+        "origins": "https://skin-check-alpha.vercel.app"
+    }
 })
 
 @app.route("/")
