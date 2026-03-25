@@ -32,11 +32,23 @@ def generate_llm_explanation(pred, confidence, heatmap):
         focus = "diffuse"
 
     prompt = f"""
-    A skin lesion is classified as {label}.
-    Confidence: {confidence_text}
-    Visual attention intensity: {focus}
+    You are an AI medical assistant.
 
-    Explain in 2 short lines why this classification makes sense.
+    A skin lesion image was analyzed by a deep learning model.
+
+    Prediction: {label}
+    Confidence: {confidence:.2f}
+
+    The model used Grad-CAM and focused on specific regions of the lesion.
+
+    Explain WHY this specific image was classified as {label}.
+
+    Focus on:
+    - Visual patterns like asymmetry, border irregularity, color variation
+    - What the model might have detected in the highlighted regions
+    - Keep it specific to THIS case, not general theory
+
+    Give 2–3 concise lines. Write the explanation as a single paragraph. Do not use bullet points or dashes
     """
 
     try:
