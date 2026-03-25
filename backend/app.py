@@ -5,8 +5,14 @@ from routes.predict_routes import predict_bp
 app = Flask(__name__)
 CORS(app)
 
-# Register routes
+@app.route("/")
+def home():
+    return {
+        "status": "API is running",
+        "message": "Skin Cancer Classification Backend"
+    }
+
 app.register_blueprint(predict_bp)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)

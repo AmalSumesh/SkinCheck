@@ -20,7 +20,8 @@ def predict_image():
 
         img_array = preprocess_image(file)
 
-        pred = model.predict(img_array)[0][0]
+        input_name = model.inputs[0].name.split(":")[0]
+        pred = model.predict({input_name: img_array})[0][0]
 
         heatmap = get_gradcam(model, img_array)
         gradcam_img = overlay_gradcam(img_np, heatmap)
