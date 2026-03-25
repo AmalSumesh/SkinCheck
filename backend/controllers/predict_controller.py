@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from model.model_loader import model
+from model.model_loader import get_model
 from utils.preprocess import preprocess_image
 from utils.gradcam import get_gradcam, overlay_gradcam
 from utils.diagnosis_explainer import generate_llm_explanation
@@ -21,9 +21,10 @@ def predict_image():
         file.seek(0)
         img_array = preprocess_image(file)
 
+        model = get_model()
         pred = model.predict(img_array)[0][0]
 
-        heatmap = get_gradcam(model, img_array)
+        heatmap = get_gradcam(model, img_array)  # model already loaded above
         gradcam_img = overlay_gradcam(img_np, heatmap)
 
         _, buffer = cv2.imencode('.jpg', gradcam_img)
