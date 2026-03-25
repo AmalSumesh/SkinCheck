@@ -8,6 +8,7 @@ import numpy as np
 from PIL import Image
 import base64
 import cv2
+import gc
 
 
 def predict_image():
@@ -24,14 +25,21 @@ def predict_image():
         model = get_model()
         pred = model.predict(img_array)[0][0]
 
-        heatmap = get_gradcam(model, img_array)  # model already loaded above
+        # Run GradCAM, then immediately free tensors to recover RAM
+        heatmap = get_gradcam(model, img_array)
+        del img_array
+        gc.collect()
+
         gradcam_img = overlay_gradcam(img_np, heatmap)
+        del img_np
+        gc.collect()
 
         _, buffer = cv2.imencode('.jpg', gradcam_img)
         gradcam_base64 = base64.b64encode(buffer).decode('utf-8')
+        del gradcam_img, buffer
+        gc.collect()
 
         threshold = 0.5
-
         if pred > threshold:
             label = "Malignant"
             confidence = float(pred)
@@ -39,7 +47,10 @@ def predict_image():
             label = "Benign"
             confidence = float(1 - pred)
 
+        # LLM call after heavy memory is freed
         explanation = generate_llm_explanation(pred, confidence, heatmap)
+        del heatmap
+        gc.collect()
 
         return jsonify({
             "prediction": label,
@@ -49,4 +60,5 @@ def predict_image():
         })
 
     except Exception as e:
+        print(f"[PREDICT ERROR] {e}")
         return jsonify({"error": str(e)}), 500

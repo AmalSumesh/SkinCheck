@@ -1,4 +1,4 @@
-const CACHE_NAME = 'skin-cancer-det-v1';
+const CACHE_NAME = 'skin-cancer-det-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -38,7 +38,12 @@ self.addEventListener('fetch', (event) => {
 
   // Always go to network for API calls (backend predict endpoint)
   if (url.pathname.startsWith('/predict') || url.port === '5000' || url.hostname !== self.location.hostname) {
-    event.respondWith(fetch(event.request));
+    event.respondWith(
+      fetch(event.request).catch(() => new Response(
+        JSON.stringify({ error: 'Backend unreachable' }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } }
+      ))
+    );
     return;
   }
 
