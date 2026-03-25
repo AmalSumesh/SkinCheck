@@ -14,13 +14,15 @@ import traceback
 
 def predict_image():
     try:
+        if 'image' not in request.files:
+            return jsonify({"error": "No image uploaded"}), 400
+
         file = request.files['image']
 
         img = Image.open(file).convert("RGB")
         img = img.resize((380, 380))
         img_np = np.array(img)
 
-        file.seek(0)
         img_array = preprocess_image(file)
 
         model = get_model()
@@ -65,7 +67,3 @@ def predict_image():
         print("[PREDICT ERROR]", str(e))
         print(tb)
         return jsonify({"error": "Internal server error", "detail": str(e)}), 500
-
-    except Exception as e:
-        print(f"[PREDICT ERROR] {e}")
-        return jsonify({"error": str(e)}), 500
