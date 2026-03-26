@@ -6,6 +6,7 @@ function App() {
   const [preview, setPreview] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [explainLoading, setExplainLoading] = useState(false);
 
   const handleChange = (e) => {
     const file = e.target.files[0];
@@ -39,6 +40,34 @@ function App() {
     }
     finally {
       setLoading(false);
+    }
+  };
+
+  const handleExplain = async () => {
+    if (!image) {
+      alert("Please select an image first!");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      setExplainLoading(true);
+
+      const res = await api.post('/explain', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setResult((prev) => ({ ...prev, ...res.data }));
+    }
+    catch (error) {
+      console.error("Error fetching explanation:", error);
+    }
+    finally {
+      setExplainLoading(false);
     }
   };
 
@@ -121,6 +150,16 @@ function App() {
                 ></div>
               </div>
               <p className="text-gray-300 font-semibold">{(result.confidence * 100).toFixed(2)}%</p>
+            </div>
+
+            <div className="text-center mb-6">
+              <button
+                onClick={handleExplain}
+                disabled={explainLoading}
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 px-5 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {explainLoading ? "Explaining..." : "Explain"}
+              </button>
             </div>
 
             {result.explanation && (
