@@ -1,3 +1,9 @@
+import os
+os.environ["OMP_NUM_THREADS"] = "1"
+import tensorflow as tf
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from routes.predict_routes import predict_bp
@@ -6,7 +12,6 @@ from model.model_loader import get_model
 app = Flask(__name__)
 
 CORS(app)
-
 
 print("[STARTUP] Warming up model...")
 get_model()

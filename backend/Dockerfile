@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE ${PORT:-5000}
 
-CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-5000} --timeout 120 --workers 1 --preload app:app"]
+CMD ["sh", "-c", "gunicorn -b 0.0.0.0:${PORT:-10000} --timeout 180 --workers 1 --preload app:app"]
