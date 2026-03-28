@@ -12,8 +12,7 @@ print(f"[GROQ] API key loaded: {'YES' if api_key else 'NO - check .env!'}")
 
 client = Groq(api_key=api_key)
 
-def generate_llm_explanation(pred, confidence, heatmap):
-    label = "malignant" if pred > 0.5 else "benign"
+def generate_llm_explanation(label, confidence, heatmap):
 
     if confidence > 0.6:
         confidence_text = "high"

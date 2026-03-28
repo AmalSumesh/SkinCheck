@@ -32,9 +32,20 @@ def explain_image():
         _, buffer = cv2.imencode('.jpg', gradcam_img)
         gradcam_base64 = base64.b64encode(buffer).decode('utf-8')
 
+        model = get_model()
+        pred = model.predict(img_array)[0][0]
+
+        threshold = 0.5
+        if pred > threshold:
+            label = "Malignant"
+            confidence = float(pred)
+        else:
+            label = "Benign"
+            confidence = float(1 - pred)
+
 
         try:
-            explanation = generate_llm_explanation(0.5, 0.5, heatmap)
+            explanation = generate_llm_explanation(label, confidence, heatmap)
         except:
             explanation = "Explanation unavailable"
 
