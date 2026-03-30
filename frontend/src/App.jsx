@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "./api";
+import axios from "axios";
 
 function App() {
   const [image, setImage] = useState(null);
@@ -27,11 +27,15 @@ function App() {
     try {
       setLoading(true);
 
-      const res = await api.post('/predict', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+        const res = await axios.post(
+          "https://skin-cancer-classification-gpqz.onrender.com/predict",
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
 
       setResult(res.data);
     }
@@ -55,11 +59,15 @@ function App() {
     try {
       setExplainLoading(true);
 
-      const res = await api.post('/explain', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+        const res = await axios.post(
+          "https://unspiteful-lukas-unfevered.ngrok-free.dev/explain",
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
 
       setResult((prev) => ({ ...prev, ...res.data }));
     }
