@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
 function App() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -28,7 +29,7 @@ function App() {
       setLoading(true);
 
         const res = await axios.post(
-          "https://unspiteful-lukas-unfevered.ngrok-free.dev/predict",
+          `${BASE_URL}/predict`,
           formData,
           {
             headers: {
@@ -60,7 +61,7 @@ function App() {
       setExplainLoading(true);
 
         const res = await axios.post(
-          "https://unspiteful-lukas-unfevered.ngrok-free.dev/explain",
+          `${BASE_URL}/explain`,
           formData,
           {
             headers: {
