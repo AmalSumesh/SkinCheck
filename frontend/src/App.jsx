@@ -28,7 +28,7 @@ function App() {
       setLoading(true);
 
         const res = await axios.post(
-          "https://skin-cancer-classification-gpqz.onrender.com/predict",
+          "https://unspiteful-lukas-unfevered.ngrok-free.dev/predict",
           formData,
           {
             headers: {
