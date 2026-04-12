@@ -5,7 +5,7 @@ An end-to-end intelligent system for **skin lesion classification and explainabl
 ## 🚀 Demo
 
 🎥 **Live Demo Video**  
-https://github.com/user-attachments/assets/476f416e-a1a3-4c74-a1e-a1e1-f737a38a68e5
+https://github.com/user-attachments/assets/476f416e-a1a3-4c74-a1e1-f737a38a68e5
 
 ---
 ## 📌 Overview
